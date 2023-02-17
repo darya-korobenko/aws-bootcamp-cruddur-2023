@@ -22,8 +22,8 @@ tasks:
 
 Following that I set my AWS credentials as environment variables, which let me have the persistent variables in my workspace that could be used in the code:
 ```
-gp env AWS_ACCESS_KEY_ID="***REMOVED***"
-gp env AWS_SECRET_ACCESS_KEY="***REMOVED***"
+gp env AWS_ACCESS_KEY_ID="___"
+gp env AWS_SECRET_ACCESS_KEY="___"
 gp env AWS_DEFAULT_REGION="eu-central-1"
 ```
 
