@@ -33,4 +33,4 @@ aws sts get-caller-identity
 ```
 Indeed, everything was set up correctly:
 
-![Proof of Working AWS CLI](/_docs/assets/sanity-check.png)
+![Proof of Working AWS CLI](/_docs/assets/sanity-check.jpg)
