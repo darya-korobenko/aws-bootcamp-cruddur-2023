@@ -59,6 +59,25 @@ I also opened Billing page and under Billing preferences chose Receive Billing A
 
 
 
+### Create AWS Budget
+
+I followed [AWS Documentation Page](https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget.html#examples) to set up a new monthly AWS budget of 1$ using Gitpod.
+
+In order to do that, two new json files were created as described in the documentation (only an amount of dollars was modified and email replaced).
+
+To get my AWS Account ID the following command was run:
+```
+aws sts get-caller-identity --query Account --output text
+```
+
+Then I created a new environmental variable AWS_ACCOUNT_ID:
+```
+gp env AWS_ACCOUNT_ID="___"
+```
+After that the following create-budget command was run and my monthly budget was set up:
+
+![AWS Budget](/_docs/assets/create_budget.png)
+
 ## Challenges
 
 ### Set MFA for Root Acccount and Create IAM Role
