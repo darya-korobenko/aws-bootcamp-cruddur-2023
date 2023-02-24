@@ -12,8 +12,6 @@
 
 I also added an alias to my AWS account though IAM Dashboard-AWS Account to make the sign-in for my IAM users easier in the future.
 
-Last but not least, I went to Account settings and activated IAM access to billing information.
-
 ### Install and Verify AWS CLI 
 
 I installed the AWS CLI on Gitpod, following a set of commands provided in [AWS CLI Install Documentation Page](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). To make it easier to debug the CLI commands, I also set AWS CLI to use partial autoprompt mode.
@@ -51,7 +49,19 @@ Just in case of a future need, I also installed AWS CLI on my laptop by followin
 
 ![Proof of Working AWS CLI v2](/_docs/assets/command_prompt.png)
 
+### Enable Billing
+
+I went to Account settings in my root account and activated IAM access to billing information.
+
+I also opened Billing page and under Billing preferences chose Receive Billing Alerts specifying my email.
+
+### Create Billing Alarm
+
+
+
 ## Challenges
+
+### Set MFA for Root Acccount and Create IAM Role
 
 I set up MFA for my root account and stopped using it as my newly created *daria-bootcamp* user had all the required permissions.
 
@@ -61,8 +71,25 @@ I also created IAM role *DemoRoleForEC2* for EC2 instances and attached *IAMRead
 
 ![IAM Role](/_docs/assets/role.png)
 
-Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+### Use EventBridge to hookup Health Dashboard to SNS
+
+Following a set of instructions provided in [AWS Documentation Page](https://aws.amazon.com/premiumsupport/knowledge-center/sns-email-notifications-eventbridge/), I created a new health topic in SNS and subscribed my email to it.
+
+![SNS health topic](/_docs/assets/sns.png)
+
+Following a set of instructions provided in [AWS Documentation Page](https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html), I used EventBridge to hookup Health Dashboard to SNS, so that in the future I will be able to receive notifications whenever there is a service health issue.
+
+![Eventbridge health rule](/_docs/assets/health.png)
+
 Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
+
 Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
+
 Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility. 
-Open a support ticket and request a service limit
+
+### Open Support Case
+
+With the help of AWS Support Console, I opened a new support ticket and requested to increase the service limit for SNS.
+
+![Support case](/_docs/assets/support_case.png)
+
