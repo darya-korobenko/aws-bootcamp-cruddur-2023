@@ -55,7 +55,11 @@ Just in case of a future need, I also installed AWS CLI on my laptop by followin
 
 I set up MFA for my root account and stopped using it as my newly created *daria-bootcamp* user had all the required permissions.
 
+![MFA for Root User](/_docs/assets/MFA_root.png)
+
 I also created IAM role *DemoRoleForEC2* for EC2 instances and attached *IAMReadOnlyAccess* policy to it.
+
+![IAM Role](/_docs/assets/role.png)
 
 Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
