@@ -73,7 +73,18 @@ Then I confirmed the subscription via email and checked that everything works wi
 
 ![Billing Alarm](/_docs/assets/billing_alarm.png)
 
+Following [AWS Documentation Page](https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-estimatedcharges-alarm/), I created a billing alarm called *DailyEstimatedCharges* that would be triggered in case the daily estimated charges exceed 1$.
 
+First, I had to create *alarm_config.json* file. The only modifications done in the file were changing the amount of dollars to 1 and adding the TopicARN that was generated earlier.
+
+Then the following command was run:
+```
+aws cloudwatch put-metric-alarm --cli-input-json file://aws/json/alarm_config.json
+```
+
+Following that I confirmed that everything works with the help of AWS Console:
+
+![Proof of AWS Billing Alarm](/_docs/assets/cloudwatch.png)
 
 ### Create AWS Budget
 
