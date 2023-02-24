@@ -57,6 +57,22 @@ I also opened Billing page and under Billing preferences chose Receive Billing A
 
 ### Create Billing Alarm
 
+I created SNS Topic called *billing-alarm* using Gitpod:
+```
+aws sns create-topic --name billing-alarm
+```
+Then I subscribed my email to this topic:
+```
+aws sns subscribe \
+    --topic-arn XXX \
+    --protocol email \
+    --notification-endpoint XXX@gmail.com
+```
+
+Then I confirmed the subscription via email and checked that everything works with the help of AWS Console:
+
+![Billing Alarm](/_docs/assets/billing_alarm.png)
+
 
 
 ### Create AWS Budget
@@ -70,13 +86,17 @@ To get my AWS Account ID the following command was run:
 aws sts get-caller-identity --query Account --output text
 ```
 
-Then I created a new environmental variable AWS_ACCOUNT_ID:
+Then I created a new environmental variable *AWS_ACCOUNT_ID*:
 ```
 gp env AWS_ACCOUNT_ID="___"
 ```
-After that the following create-budget command was run and my monthly budget was set up:
+After that the following *create-budget* command was run and my monthly budget was set up:
 
 ![AWS Budget](/_docs/assets/create_budget.png)
+
+Following that I confirmed that everything worked with the help of AWS Console:
+
+![Proof of AWS Budget](/_docs/assets/budget.png)
 
 ## Challenges
 
