@@ -143,12 +143,6 @@ Following a set of instructions provided in [AWS Documentation Page](https://doc
 
 ![Eventbridge health rule](/_docs/assets/health.png)
 
-Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
-
-Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
-
-Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility. 
-
 ### Open Support Case
 
 With the help of AWS Support Console, I opened a new support ticket and requested to increase the service limit for SNS.
@@ -157,7 +151,7 @@ With the help of AWS Support Console, I opened a new support ticket and requeste
 
 ### Scrub Github History of Sensitive Data
 
-I accidentally revealed my sensitive data in Github, so had to clean up the github history.
+I accidentally revealed my sensitive data in Github, so had to clean up the Github history.
 
 Because of that I also had to deactive my secret access key and create a new one, as a result the variables in Gitpod had to be reset as well.
 
