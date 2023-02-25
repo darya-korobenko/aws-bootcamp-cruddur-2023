@@ -109,6 +109,18 @@ Following that I confirmed that everything worked with the help of AWS Console:
 
 ![Proof of AWS Budget](/_docs/assets/budget.png)
 
+### Recreate Conceptual Diagram in Lucid Charts
+
+![Conceptual Diagram](/_docs/assets/conceptual_diagram.png)
+
+[Lucid Charts Share Link](https://lucid.app/lucidchart/c2c6acfa-134c-42ee-8c86-9fe74ad92a0e/edit?viewport_loc=-2528%2C-397%2C3072%2C1545%2C0_0&invitationId=inv_979c4aef-86a4-4b39-adb9-c934c197d36b)
+
+### Recreate Logical Architectual Diagram in Lucid Charts
+
+![Logical Diagram](/_docs/assets/logical_diagram.png)
+
+[Lucid Charts Share Link](https://lucid.app/lucidchart/34db2c23-3489-4730-b85c-d52518f2be5f/edit?viewport_loc=-56%2C-76%2C2304%2C1159%2C0_0&invitationId=inv_e7b4d2ba-97b6-446c-8567-dc6dd65adddd)
+
 ## Challenges
 
 ### Set MFA for Root Acccount and Create IAM Role
@@ -143,3 +155,28 @@ With the help of AWS Support Console, I opened a new support ticket and requeste
 
 ![Support case](/_docs/assets/support_case.png)
 
+### Scrub Github History of Sensitive Data
+
+I accidentally revealed my sensitive data in Github, so had to clean up the github history.
+
+Because of that I also had to deactive my secret access key and create a new one, as a result the variables in Gitpod had to be reset as well.
+
+At first, I used [truffleHog](https://github.com/trufflesecurity/trufflehog) to scan GitHub repository and look into my commit history for any sensitive data:
+```
+brew install trufflesecurity/trufflehog/trufflehog
+trufflehog git https://github.com/trufflesecurity/test_keys --only-verified
+```
+
+After that I used [BFG tool](https://rtyley.github.io/bfg-repo-cleaner/) to cleanse bad data out of my Git repository history. For that a new *passwords.txt* file had to be created with all the data that had to be removed (keys, passwords, emails). Then the following set of commands were run:
+```
+brew install bfg
+bfg --replace-text passwords.txt
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+bfg --delete-files sanity-check.png
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+git push --force
+```
+
+Following that I verified that all the sensitive data was indeed removed:
+
+![Sensitive data](/_docs/assets/sensitive_data.png)
