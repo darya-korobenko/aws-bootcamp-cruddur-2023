@@ -336,6 +336,9 @@ Then I built the containers:
 ```sh
 docker compose up
 ```
+
+#### Postgres
+
 Following that, I installed the postgres client into .gitpod.yml. Then I installed the PostgreSQL extension, clicked on Settings and added it to .gitpod.yml:
 
 ```yaml
@@ -354,7 +357,19 @@ vscode:
 
 ```
 
-After that, I verified that DynamoDB Local is working as expected by creating a new table called *Music*:
+Then I connected to Database server with
+- username: postgres
+- password: password
+
+![Connection to DB server](/_docs/assets/database_server.png)
+
+Finally, I verified that it is possible to use interactive terminal to work with the PostgreSQL database:
+
+![psql](/_docs/assets/psql.png)
+
+#### DynamoDB Local
+
+Coming back to DynamoDB Local, I verified that it is working as expected by creating a new table called *Music*:
 ```sh
 aws dynamodb create-table \
     --endpoint-url http://localhost:8000 \
