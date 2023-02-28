@@ -336,8 +336,26 @@ Then I built the containers:
 ```sh
 docker compose up
 ```
-After that, I verified that DynamoDB Local is working as expected by creating a new table called music:
+Following that, I installed the postgres client into .gitpod.yml. Then I installed the PostgreSQL extension, clicked on Settings and added it to .gitpod.yml:
+
+```yaml
+tasks:
+  ...
+  - name: postgres
+    init: |
+      curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+      echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+      sudo apt update
+      sudo apt install -y postgresql-client-13 libpq-dev
+vscode:
+  extensions:
+    - 42Crunch.vscode-openapi
+    - cweijan.vscode-postgresql-client2
+
 ```
+
+After that, I verified that DynamoDB Local is working as expected by creating a new table called *Music*:
+```sh
 aws dynamodb create-table \
     --endpoint-url http://localhost:8000 \
     --table-name Music \
@@ -348,8 +366,8 @@ aws dynamodb create-table \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
     --table-class STANDARD
 ```
-Then I created an item:
-```
+Then I created a new item:
+```sh
 aws dynamodb put-item \
     --endpoint-url http://localhost:8000 \
     --table-name Music \
@@ -357,10 +375,9 @@ aws dynamodb put-item \
         '{"Artist": {"S": "No One You Know"}, "SongTitle": {"S": "Call Me Today"}, "AlbumTitle": {"S": "Somewhat Famous"}}' \
     --return-consumed-capacity TOTAL  
 ```
-Following that, I got the existing records:
-```
-aws dynamodb scan --table-name cruddur_cruds --query "Items" --endpoint-url http://localhost:8000
-```
+Following that, I got the existing records from the table:
+
+![Proof of working Dynamo DB](/_docs/assets/dynamodb.png)
 
 ## Challenges
 
