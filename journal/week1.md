@@ -400,11 +400,22 @@ Following that, I got the existing records from the table:
 
 ### Push and tag a image to DockerHub
 
+At first, I created a new account in DockerHub. Then I checked the existing docker images and logged in to my Docker account.
+Following that, I tagged *aws-bootcamp-cruddur-2023-backend-flask* image as version1.0 and pushed it with my *kdo1404* Docker user.
+
+```sh
+docker images
+docker login
+docker tag aws-bootcamp-cruddur-2023-backend-flask kdo1404/cruddur-backend:version1.0
+docker push kdo1404/cruddur-backend:version1.0
+```
+Finally, I opened DockerHub to verify the results:
+
+![Proof of image in DockerHub](/_docs/assets/dockerhub_image.png)
+
 ### Use multi-stage building for a Dockerfile build
 
 ### Implement a healthcheck in the V3 Docker compose file
-
-### Research best practices of Dockerfiles and attempt to implement it in your Dockerfile
 
 ### Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
 
