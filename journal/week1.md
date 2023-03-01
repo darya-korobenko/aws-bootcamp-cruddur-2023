@@ -417,6 +417,21 @@ Finally, I opened DockerHub to verify the results:
 
 ### Implement a healthcheck in the V3 Docker compose file
 
+*curl* is not installed by default in Alpine images, thus I used *wget* command to implement a healthcheck to frontend-react-js in Docker compose file:
+
+```yaml
+healthcheck:
+  test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+  interval: 60s
+  retries: 5
+  start_period: 10s
+  timeout: 10s
+```
+
+After that I verified that the image is indeed healthy:
+
+![Proof of working healthcheck](/_docs/assets/healthcheck.png)
+
 ### Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
 
 ### Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes.
