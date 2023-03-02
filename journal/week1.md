@@ -398,7 +398,7 @@ Following that, I got the existing records from the table:
 
 ### Run the dockerfile CMD as an external script
 
-### Push and tag a image to DockerHub
+### Push and tag an image to DockerHub
 
 At first, I created a new account in DockerHub. Then I checked the existing docker images and logged in to my Docker account.
 Following that, I tagged *aws-bootcamp-cruddur-2023-backend-flask* image as version1.0 and pushed it with my *kdo1404* Docker user.
@@ -434,4 +434,31 @@ After that I verified that the image is indeed healthy:
 
 ### Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
 
-### Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes.
+### Launch an EC2 instance that has docker installed and pull a container
+
+I created a new instance via AWS EC2 Console and in *Advanced details - User data* section added Docker install script (following [AWS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html)):
+
+```sh
+#!/bin/bash
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo systemctl enable docker
+sudo usermod -a -G docker ec2-user
+```
+
+After creating a new EC2 instance, I connected to it with the help of .pem file and verified that Docker is installed:
+
+```sh
+ssh -i .\EC2_Tutorial.pem ec2-user@PUBLIC_IP
+docker info
+```
+
+![Proof of working EC2](/_docs/assets/ec2.png)
+
+Following that, I pulled an image of Cruddur backend from DockerHub. This image was pushed by me earlier for one of the challenges.
+
+```sh
+docker pull kdo1404/cruddur-backend:version1.0
+```
+
+![Proof of working EC2](/_docs/assets/ec2_docker.png)
