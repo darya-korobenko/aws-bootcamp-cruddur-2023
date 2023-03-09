@@ -4,7 +4,7 @@
 
 ### Containerize Backend
 
-Initially, I verified that Docker extension is installed on Gitpod and then I created Dockerfile in backend-flask:
+1. Verified that Docker extension is installed on Gitpod and created Dockerfile in backend-flask:
 ```dockerfile
 WORKDIR /backend-flask
 
@@ -18,7 +18,7 @@ ENV FLASK_ENV=development
 EXPOSE ${PORT}
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
 ```
-To verify that everything is working as expected before containarizing the backend of our application, I installed Python libraries, set environmental variables for frontend and backend URLs and run Python:
+2. To verify that everything is working as expected before containarizing the backend of our application, installed Python libraries, set environmental variables for frontend and backend URLs and run Python:
 
 ```sh
 cd backend-flask
@@ -28,29 +28,27 @@ export BACKEND_URL="*"
 python3 -m flask run --host=0.0.0.0 --port=4567
 ```
 
-Following that, I unlocked port 4567, opened the link in browser and appended /api/activities/home to the url:
+3. Unlocked port 4567, opened the link in browser, appended /api/activities/home to the url and confirned that the set up was done correctly:
 
 ![Proof of working backend](/_docs/assets/backend_v1.png)
 
-Indeed, the set up was done correctly, so I removed the newly created environmental variables.
-
-After that, I built the backend container and run it:
+4. Built the backend container and run it:
 ```sh
 docker build -t  backend-flask ./backend-flask
 docker run --rm -p 4567:4567 -it -e FRONTEND_URL='*' -e BACKEND_URL='*' backend-flask
 ```
-Following that, I unlocked port 4567, opened the link in browser and appended /api/activities/home to the url:
+5. Verified that the set up was done correctly:
 
 ![Proof of working backend v2](/_docs/assets/backend_v2.png)
 
 ### Containerize Frontend
 
-At first, I run NPM Install to copy the contents of node_modules:
+1. Ran NPM Install to copy the contents of node_modules:
 ```sh
 cd frontend-react-js
 npm i
 ```
-After that, I created a new Dockerfile in frontend-react-js folder:
+2. Created a new Dockerfile in frontend-react-js folder:
 ```dockerfile
 FROM node:16.18
 
@@ -62,11 +60,11 @@ RUN npm install
 EXPOSE ${PORT}
 CMD ["npm", "start"]
 ```
-I built the frontend container with docker-compose.yml (described in the next section), otherwise the commands for the container build and run would have been exactly the same as for the backend (but with port 3000).
+3. Built the frontend container with docker-compose.yml (described in the next section), otherwise the commands for the container build and run would have been exactly the same as for the backend (but with port 3000).
 
 ### Multiple Containers
 
-I created docker-compose.yml at the root of my project:
+1. Created docker-compose.yml at the root of my project:
 ```yml
 version: "3.8"
 services:
@@ -95,11 +93,11 @@ networks:
     driver: bridge
     name: cruddur
 ```
-Then I built the containers:
+2. Built the containers:
 ```sh
 docker compose up
 ```
-After that, I unlocked port 3000, opened the link in browser and verified that everything is working as expected:
+3. Unlocked port 3000, opened the link in browser and verified that everything is working as expected:
 
 ![Proof of working app](/_docs/assets/docker_compose.png)
 
@@ -107,11 +105,11 @@ After that, I unlocked port 3000, opened the link in browser and verified that e
 
 #### Backend
 
-Following this, I created a new Cruddur account and confirmed my email with default (1234) password:
+1. Created a new Cruddur account and confirmed my email with default (1234) password:
 
 ![Proof of sign up](/_docs/assets/account.png)
 
-Then I installed OpenAPI extension, opened openapi file in backend-flask folder and added a new path to the existing code:
+2. Installed OpenAPI extension, opened openapi file in backend-flask folder and added a new path to the existing code:
 ```yaml
   /api/activities/notifications:
     get:
@@ -129,7 +127,7 @@ Then I installed OpenAPI extension, opened openapi file in backend-flask folder 
                 items:
                   $ref: '#/components/schemas/Activity'
 ```
-After that, I did two modifications to app.py file following the home_activities example:
+3. Did two modifications to app.py file following the home_activities example:
 ```py
 from services.notifications_activities import *
 ```
@@ -139,7 +137,7 @@ def data_notifications():
   data = NotificationsActivities.run()
   return data, 200
 ```
-Then I created notifications_activities.py in backend-flask/services folder following the home_activities.py example:
+4. Created notifications_activities.py in backend-flask/services folder following the home_activities.py example:
 ```py
 from datetime import datetime, timedelta, timezone
 class NotificationsActivities:
@@ -168,13 +166,13 @@ class NotificationsActivities:
     ]
     return results
 ```
-Following that, I unlocked port 4567, opened the link in browser and appended /api/activities/notifications to the url:
+5. Unlocked port 4567, opened the link in browser, appended /api/activities/notifications to the url and verified that everything is working as expected:
 
 ![Proof of notifications backend](/_docs/assets/backend_notifications.png)
 
 #### Frontend
 
-At first, I added two modifications to App.js file in frontend-react-js/src folder following the example of HomeFeedPage:
+1. Added two modifications to App.js file in frontend-react-js/src folder following the example of HomeFeedPage:
 ```js
 import NotificationsFeedPage from './pages/NotificationsFeedPage';
 ```
@@ -184,9 +182,9 @@ import NotificationsFeedPage from './pages/NotificationsFeedPage';
     element: <NotificationsFeedPage />
   },
 ```
-After that, I created NotificationsFeedPage.js and NotificationsFeedPage.css in frontend-react-js/src/pages folder.
+2. Created NotificationsFeedPage.js and NotificationsFeedPage.css in frontend-react-js/src/pages folder.
 
-Then I copied the code from HomeFeedPage.js to NotificationsFeedPage.js and added some adjustments (commented the modified rows):
+3. Copied the code from HomeFeedPage.js to NotificationsFeedPage.js and added some adjustments (commented the modified rows):
 ```js
 import './NotificationsFeedPage.css';  //here
 import React from "react";
@@ -273,13 +271,13 @@ export default function NotificationsFeedPage() {  //here
   );
 }
 ```
-After that, I unlocked port 3000, opened the link in browser and verified that everything is working as expected:
+4. Unlocked port 3000, opened the link in browser and verified that everything is working as expected:
 
 ![Proof of notifications page](/_docs/assets/frontend_notifications.png)
 
 ### Add DynamoDB Local and Postgres
 
-I modified docker-compose.yml:
+Modified docker-compose.yml to include databases:
 ```yaml
 version: "3.8"
 services:
@@ -332,14 +330,10 @@ volumes: # store the postgres data locally
   db:
     driver: local
 ```
-Then I built the containers:
-```sh
-docker compose up
-```
 
 #### Postgres
 
-Following that, I installed the postgres client into .gitpod.yml. Then I installed the PostgreSQL extension, clicked on Settings and added it to .gitpod.yml:
+1. Installed postgres client into .gitpod.yml. Installed the PostgreSQL extension, clicked on Settings and added it to .gitpod.yml.
 
 ```yaml
 tasks:
@@ -357,19 +351,19 @@ vscode:
 
 ```
 
-Then I connected to Database server with
+2. Connected to Database server with
 - username: postgres
 - password: password
 
 ![Connection to DB server](/_docs/assets/database_server.png)
 
-Finally, I verified that it is possible to use interactive terminal to work with the PostgreSQL database:
+3. Verified that it is possible to use interactive terminal to work with the PostgreSQL database:
 
 ![psql](/_docs/assets/psql.png)
 
 #### DynamoDB Local
 
-Coming back to DynamoDB Local, I verified that it is working as expected by creating a new table called *Music*:
+1. Verified that it is working as expected by creating a new table called *Music*:
 ```sh
 aws dynamodb create-table \
     --endpoint-url http://localhost:8000 \
@@ -381,7 +375,7 @@ aws dynamodb create-table \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
     --table-class STANDARD
 ```
-Then I created a new item:
+2. Created a new item:
 ```sh
 aws dynamodb put-item \
     --endpoint-url http://localhost:8000 \
@@ -390,7 +384,7 @@ aws dynamodb put-item \
         '{"Artist": {"S": "No One You Know"}, "SongTitle": {"S": "Call Me Today"}, "AlbumTitle": {"S": "Somewhat Famous"}}' \
     --return-consumed-capacity TOTAL  
 ```
-Following that, I got the existing records from the table:
+3. Got the existing records from the table:
 
 ![Proof of working Dynamo DB](/_docs/assets/dynamodb.png)
 
@@ -398,26 +392,87 @@ Following that, I got the existing records from the table:
 
 ### Run the dockerfile CMD as an external script
 
+1. Created setup.sh in backend-flask folder:
+```sh
+#!/bin/bash
+python3 -m flask run --host=0.0.0.0 --port=4567
+```
+2. Modidied Dockerfile in backend-flask folder:
+```dockerfile
+FROM python:3.10-slim-buster
+
+WORKDIR /backend-flask
+
+COPY requirements.txt requirements.txt 
+RUN pip3 install -r requirements.txt
+
+COPY setup.sh /
+#change access permission
+RUN chmod +x /setup.sh
+
+COPY . .
+
+ENV FLASK_ENV=development
+
+EXPOSE ${PORT}
+#use script
+CMD [ "/setup.sh"]
+```
+3. Built and run the containers:
+
+![Proof of using script](/_docs/assets/built_script.png)
+
+3. Verified the results:
+
+![Verified using script](/_docs/assets/verified_script.png)
+
 ### Push and tag an image to DockerHub
 
-At first, I created a new account in DockerHub. Then I checked the existing docker images and logged in to my Docker account.
-Following that, I tagged *aws-bootcamp-cruddur-2023-backend-flask* image as version1.0 and pushed it with my *kdo1404* Docker user.
-
+1. Created a new account in DockerHub.
+2. Checked the existing docker images and logged into my Docker account. Tagged *aws-bootcamp-cruddur-2023-backend-flask* image (version1.0) and pushed it to DockerHub.
 ```sh
 docker images
 docker login
 docker tag aws-bootcamp-cruddur-2023-backend-flask kdo1404/cruddur-backend:version1.0
 docker push kdo1404/cruddur-backend:version1.0
 ```
-Finally, I opened DockerHub to verify the results:
+3. Opened DockerHub to verify the results:
 
 ![Proof of image in DockerHub](/_docs/assets/dockerhub_image.png)
 
 ### Use multi-stage building for a Dockerfile build
 
+1. Modified Dockerfile in backend-flask folder to use multi-stage build by following [Docker documentation](https://docs.docker.com/build/building/multi-stage/).
+Named a first stage as *builder* and used it as a new stage *build1*:
+```dockerfile
+# first stage - builder
+FROM python:3.10-slim-buster AS builder
+
+WORKDIR /backend-flask
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+# second stage - build1
+FROM builder AS build1
+
+COPY setup.sh /
+RUN chmod +x /setup.sh
+
+COPY . .
+
+ENV FLASK_ENV=development
+
+EXPOSE ${PORT}
+CMD [ "/setup.sh"]
+```
+2. Ran *compose up* command to verify that everything is working as expected:
+
+![Proof of multistage build](/_docs/assets/multistage_build.png)
+
 ### Implement a healthcheck in the V3 Docker compose file
 
-*curl* is not installed by default in Alpine images, thus I used *wget* command to implement a healthcheck to frontend-react-js in Docker compose file:
+1. *curl* is not installed by default in Alpine images, thus used *wget* command to implement a healthcheck to frontend-react-js in Docker compose file:
 
 ```yaml
 healthcheck:
@@ -428,7 +483,7 @@ healthcheck:
   timeout: 10s
 ```
 
-After that I verified that the image is indeed healthy:
+2. Verified that the image is indeed healthy:
 
 ![Proof of working healthcheck](/_docs/assets/healthcheck.png)
 
@@ -436,7 +491,7 @@ After that I verified that the image is indeed healthy:
 
 ### Launch an EC2 instance that has docker installed and pull a container
 
-I created a new instance via AWS EC2 Console and in *Advanced details - User data* section added Docker install script (following [AWS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html)):
+1. Created a new instance via AWS EC2 Console and in *Advanced details - User data* section added Docker install script (following [AWS Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html)):
 
 ```sh
 #!/bin/bash
@@ -446,7 +501,7 @@ sudo systemctl enable docker
 sudo usermod -a -G docker ec2-user
 ```
 
-After creating a new EC2 instance, I connected to it with the help of .pem file and verified that Docker is installed:
+2. Connected to it with the help of .pem file and verified that Docker is installed:
 
 ```sh
 ssh -i .\EC2_Tutorial.pem ec2-user@PUBLIC_IP
@@ -455,7 +510,7 @@ docker info
 
 ![Proof of working EC2](/_docs/assets/ec2.png)
 
-Following that, I pulled an image of Cruddur backend from DockerHub. This image was pushed by me earlier for one of the challenges.
+3. Pulled an image of Cruddur backend from DockerHub. This image was pushed by me earlier for one of the challenges.
 
 ```sh
 docker pull kdo1404/cruddur-backend:version1.0
