@@ -487,7 +487,31 @@ healthcheck:
 
 ![Proof of working healthcheck](/_docs/assets/healthcheck.png)
 
-### Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
+### Install Docker on your localmachine and get the same containers running outside of Gitpod
+
+1. Cloned git repo to my laptop:
+
+![Clone repo](/_docs/assets/clone_repo.png)
+
+2. Checked *.gitpod.yml* and installed [Docker](https://docs.docker.com/desktop/install/windows-install/), [Node.js](https://nodejs.org/en/download/) and [PostgreSQL](https://www.postgresql.org/download/windows/) on my laptop (Windows 10 OS).
+
+3. Opened VSCode and added Docker, OpenAPI and PostgreSQL extensions.
+
+4. Installed NPM:
+```
+cd frontend-react-js
+npm init
+npm install
+```
+5. Changed frontent and backend URLs in Docker compose file to http://localhost:3000 and http://localhost:4567, accordingly.
+
+6. Ran docker compose up and verified that everything is working as expected:
+
+![Proof of working frontend](/_docs/assets/frontend_local.png)
+
+![Proof of working backend](/_docs/assets/backend_local.png)
+
+![Proof of running Docker](/_docs/assets/docker_local.png)
 
 ### Launch an EC2 instance that has docker installed and pull a container
 
