@@ -1,5 +1,19 @@
 # Week 1 — App Containerization
 
+  - [Homework](#homework)
+    + [Containerize Backend](#containerize-backend)
+    + [Containerize Frontend](#containerize-frontend)
+    + [Multiple Containers](#multiple-containers)
+    + [Create Notifications Feature](#create-notifications-feature)
+    + [Add DynamoDB Local and Postgres](#add-dynamodb-local-and-postgres)
+  - [Challenges](#challenges)
+    + [Run the Dockerfile CMD as an external script](#run-the-dockerfile-cmd-as-an-external-script)
+    + [Push and tag an image to DockerHub](#push-and-tag-an-image-to-dockerhub)
+    + [Use multi-stage building for a Dockerfile build](#use-multi-stage-building-for-a-dockerfile-build)
+    + [Implement a healthcheck in the V3 Docker compose file](#implement-a-healthcheck-in-the-v3-docker-compose-file)
+    + [Install Docker on localmachine and get the same containers running outside of Gitpod](#install-docker-on-localmachine-and-get-the-same-containers-running-outside-of-gitpod)
+    + [Launch an EC2 instance that has docker installed and pull a container](#launch-an-ec2-instance-that-has-docker-installed-and-pull-a-container)
+ 
 ## Homework
 
 ### Containerize Backend
@@ -487,7 +501,7 @@ healthcheck:
 
 ![Proof of working healthcheck](/_docs/assets/healthcheck.png)
 
-### Install Docker on your localmachine and get the same containers running outside of Gitpod
+### Install Docker on localmachine and get the same containers running outside of Gitpod
 
 1. Cloned git repo to my laptop:
 
