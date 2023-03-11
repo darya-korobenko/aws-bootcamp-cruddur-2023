@@ -1,5 +1,19 @@
 # Week 0 — Billing and Architecture
 
+  - [Homework](#homework)
+    + [Create a new User and Generate AWS Credentials](#create-a-new-user-and-generate-aws-credentials)
+    + [Install and Verify AWS CLI](#install-and-verify-aws-cli)
+    + [Enable Billing](#enable-billing)
+    + [Create Billing Alarm](#create-billing-alarm)
+    + [Create AWS Budget](#create-aws-budget)
+    + [Recreate Conceptual Diagram in Lucid Charts](#recreate-conceptual-diagram-in-lucid-charts)
+    + [Recreate Logical Architectual Diagram in Lucid Charts](#recreate-logical-architectual-diagram-in-lucid-charts)
+  - [Challenges](#challenges)
+    + [Set MFA for Root Acccount and Create IAM Role](#set-mfa-for-root-acccount-and-create-iam-role)
+    + [Use EventBridge to hookup Health Dashboard to SNS](#use-eventbridge-to-hookup-health-dashboard-to-sns)
+    + [Open Support Case](#open-support-case)
+    + [Scrub Github History of Sensitive Data](#scrub-github-history-of-sensitive-data)
+
 ## Homework
 
 ### Create a new User and Generate AWS Credentials
