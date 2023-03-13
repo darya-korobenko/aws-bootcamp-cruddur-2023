@@ -4,7 +4,6 @@
     + [Instrument Honeycomb](#instrument-honeycomb)
     + [Run queries to explore traces within Honeycomb](#run-queries-to-explore-traces-within-honeycomb)
     + [Instrument AWS X-Ray](#instrument-aws-x-ray)
-    + [Observe X-Ray traces within the AWS Console](#observe-x-ray-traces-within-the-aws-console)
     + [Integrate Rollbar for Error Logging](#integrate-rollbar-for-error-logging)
     + [Trigger an error an observe an error with Rollbar](#trigger-an-error-an-observe-an-error-with-rollbar)
     + [Install WatchTower and write a custom logger to send application log data to CloudWatch Log group](#install-watchtower-and-write-a-custom-logger-to-send-application-log-data-to-cloudwatch-log-group)
@@ -110,11 +109,11 @@ aws xray create-group \
    --group-name "Cruddur" \
    --filter-expression "service(\"backend-flask\")"
 ```
-[X-Ray Groups](/_docs/assets/xray_group_aws.png)
+![X-Ray Groups](/_docs/assets/xray_group.png)
 
 Verified in AWS Console:
 
-[X-Ray Groups Console](/_docs/assets/xray_group.png)
+![X-Ray Groups Console](/_docs/assets/xray_group_aws.png)
 
 4. Created aws/json/xray.json file for X-Ray sampling rule:
 ```json
@@ -138,11 +137,11 @@ Created a new sampling rule by running the following command:
 ```
 aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
 ```
-[X-Ray Sampling Rule](/_docs/assets/xray_sampling.png)
+![X-Ray Sampling Rule](/_docs/assets/xray_sampling.png)
 
 Verified in AWS Console:
 
-[X-Ray Sampling Rule Console](/_docs/assets/xray_sampling_aws.png)
+![X-Ray Sampling Rule Console](/_docs/assets/xray_sampling_aws.png)
 
 5. Added 2 X-Ray environmental variables to backend-flask in Docker compose file:
 ```yaml
@@ -164,13 +163,13 @@ xray-daemon:
 ```
 [Commit link](https://github.com/darya-korobenko/aws-bootcamp-cruddur-2023/commit/a9583a5eacab2799f7fc36e8a10bd7eec1c9a9a9)
 
-Ran docker compose and verified that the data is sent to X-Ray API:
+Ran docker compose up and verified that the data is sent to X-Ray API:
 
-[X-Ray Logs](/_docs/assets/xray_logs.png)
+![X-Ray Logs](/_docs/assets/xray_logs.png)
 
 Verified that the traces are visible in AWS Console:
 
-[X-Ray Traces](/_docs/assets/xray_traces.png)
+![X-Ray Traces](/_docs/assets/xray_traces.png)
 
 6. Created a segment called *user-activities* in app.py with capture using the X-Ray SDK:
 ```py
@@ -197,11 +196,7 @@ xray_recorder.end_subsegment()
 ```
 Verified that segment and subsegment were created and the traces are visible in AWS Console:
 
-[X-Ray Segments and Subsegments](/_docs/assets/xray_segment_subsegment.png)
-
-### Observe X-Ray traces within the AWS Console
-
-
+![X-Ray Segments and Subsegments](/_docs/assets/xray_segment_subsegment.png)
 
 ### Integrate Rollbar for Error Logging
 
