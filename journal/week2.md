@@ -6,7 +6,7 @@
     + [Instrument AWS X-Ray](#instrument-aws-x-ray)
     + [Integrate Rollbar for Error Logging](#integrate-rollbar-for-error-logging)
     + [Trigger an error an observe an error with Rollbar](#trigger-an-error-an-observe-an-error-with-rollbar)
-    + [Install WatchTower and write a custom logger to send application log data to CloudWatch Log group](#install-watchtower-and-write-a-custom-logger-to-send-application-log-data-to-cloudwatch-log-group)
+    + [Configure custom logger to send to CloudWatch Logs](#configure-custom-logger-to-send-to-cloudwatch-logs)
   - [Challenges](#challenges)
     + [Instrument Honeycomb for the frontend-application to observe network latency between frontend and backend](#instrument-honeycomb-for-the-frontend-application-to-observe-network-latency-between-frontend-and-backend)
     + [Add custom instrumentation to Honeycomb to add more attributes](#add-custom-instrumentation-to-honeycomb-to-add-more-attributes)
@@ -206,9 +206,60 @@ Verified that segment and subsegment were created and the traces are visible in 
 
 
 
-### Install WatchTower and write a custom logger to send application log data to CloudWatch Log group
+### Configure custom logger to send to CloudWatch Logs
 
+Installed WatchTower by adding *watchtower* to requirements.txt and running:
+```
+cd backend-flask
+pip install -r requirements.txt
+```
+Configured custom logger in app.py to use CloudWatch:
+```py
+# Installing Python modules for WatchTower
+import watchtower
+import logging
+from time import strftime
+```
+```py
+# Configuring Logger to Use CloudWatch
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+LOGGER.addHandler(console_handler)
+LOGGER.addHandler(cw_handler)
+LOGGER.info("test log")
+```
+```py
+# Passing the logger variable to HomeActivities
+@app.route("/api/activities/home", methods=['GET'])
+def data_home():
+  data = HomeActivities.run(logger=LOGGER)
+  return data, 200
+```
 
+Modified home_activities.py to add logging of this page to CloudWatch:
+```py
+class HomeActivities:
+  def run(logger):
+    logger.info("HomeActivities")
+```
+
+Added 2 environmental variables for WatchTower to backend-flask in Docker compose file:
+```yaml
+AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION}"
+AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+```
+[Commit link](https://github.com/darya-korobenko/aws-bootcamp-cruddur-2023/commit/33d026662abbc0007d0d3ae7c45790be9e8e8627)
+
+Verified in AWS Console that a log group was created in CloudWatch:
+
+![CloudWatch Log Group](/_docs/assets/cloudwatch_log_group.png)
+
+Verified in AWS Console that our test logs are visible in CloudWatch:
+
+![CloudWatch Log Events](/_docs/assets/cloudwatch_log_events.png)
 
 ## Challenges
 
